@@ -123,7 +123,7 @@ class tesk::role::controlnode (
    
       file{'/etc/tesk-deploy/ceph-adm-secret.yaml':
          ensure  => 'file',
-         content =>  epp('tesk/ceph-secret.yaml', {'name' => $tesk::cephadminsecret, 'key' => $_admkey[0]['key']}),
+         content =>  epp('tesk/ceph-secret.yaml', {'name' => $tesk::cephadminsecret, 'key' => base64('encode', $_admkey[0]['key']), 'namespace' => 'kube-system'}),
       } ~> exec{'reload-adm-secret':
          command     => 'kubectl delete -f /etc/tesk-deploy/ceph-adm-secret.yaml; kubectl create -f /etc/tesk-deploy/ceph-adm-secret.yaml',
          refreshonly => true,
@@ -135,7 +135,7 @@ class tesk::role::controlnode (
    
       file{'/etc/tesk-deploy/ceph-user-secret.yaml':
          ensure  => 'file',
-         content =>  epp('tesk/ceph-secret.yaml', {'name' => $tesk::cephusersecret, 'key' => $_userkey[0]['key']}),
+         content =>  epp('tesk/ceph-secret.yaml', {'name' => $tesk::cephusersecret, 'key' => base64('encode',$_userkey[0]['key']), 'namespace' => 'default'}),
       } ~> exec{'reload-user-secret':
          command     => 'kubectl delete -f /etc/tesk-deploy/ceph-user-secret.yaml; kubectl create -f /etc/tesk-deploy/ceph-user-secret.yaml',
          refreshonly => true,
