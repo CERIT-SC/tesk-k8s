@@ -1,0 +1,16 @@
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24h
+
+ingress:
+   provider: nginx
+   options:
+     use-forwarded-headers: "true"
+
+nodes:
+<% $nodes.each |$_key| { -%>
+  - <% $_key.each |$_k, $_v| { -%> <%= $_k %>: <%= $_v %>
+    <% } %>
+<%- } %>

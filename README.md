@@ -1,2 +1,20 @@
-# tesk-k8s
-K8S setup for TESK
+# Requirements
+
+* control node role has ssh keys to other nodes to $dockeruser account (needed for rke)
+* control node is setup so that rke and helm binaries are available as rpm packages
+* currently only Centos 7 is tested and only Centos is supported
+* at least rancher hostname has to exist in DNS prior to deployment
+
+# Rancher let's encrypt:
+
+ cluster -> system -> load balancing -> rancher -> edit
+ labels & annotations:
+ add annotation
+ cert-manager.io/cluster-issuer: letsencrypt-prod
+ kubernetes.io/ingress.class: nginx
+ kubernetes.io/tls-acme: true
+
+ save & reload
+
+ ssl certificates: select serving cert(hostname)
+
