@@ -18,3 +18,8 @@
 
  ssl certificates: select serving cert(hostname)
 
+# usage
+
+* control node from hiera: include classes tesk and tesk::role::controlnode
+* define tesk::workernodes as a list of ip of k8s worker nodes
+* workernodes: include class tesk only
